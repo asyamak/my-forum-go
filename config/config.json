@@ -1,0 +1,10 @@
+{
+
+    "host": "localhost",
+    "port": "9090",
+    "maxHeader": "1 >> 20",
+    "writeTO": "10 * time.Second",
+    "shutDownTO": "3 * time.Second"
+
+
+}
