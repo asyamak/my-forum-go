@@ -33,7 +33,7 @@ func (a *App) Start() {
 	if err != nil {
 		log.Fatalf("app - start - repository init error: %v\n", err)
 	}
-	// should defer to closure be in server.Shutdown???
+	// should defer to closure be in server.Shutdown??? or be in dbinit
 	defer db.Close()
 
 	// initialise tables - what the best way to place creation of tables?

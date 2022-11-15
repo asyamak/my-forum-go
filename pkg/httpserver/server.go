@@ -2,11 +2,11 @@ package httpserver
 
 import (
 	"context"
+	"fmt"
+	"forum/config"
 	"log"
 	"net/http"
 	"time"
-
-	"forum/config"
 )
 
 type Server struct {
@@ -38,6 +38,7 @@ func (s *Server) start() {
 	go func() {
 		s.notify <- s.Srv.ListenAndServe()
 		close(s.notify)
+		fmt.Println("notify chan")
 	}()
 }
 
@@ -50,5 +51,6 @@ func (s *Server) Notify() <-chan error {
 func (s *Server) Shutdown() error {
 	ctx, cancel := context.WithTimeout(context.Background(), s.shutdownTimeOut)
 	defer cancel()
+	defer fmt.Println("gracefully shutdowning server")
 	return s.Srv.Shutdown(ctx)
 }

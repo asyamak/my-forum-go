@@ -3,9 +3,8 @@ package repository
 import (
 	"database/sql"
 	"fmt"
-	"log"
-
 	"forum/internal/entity"
+	"log"
 )
 
 type User struct {
@@ -16,20 +15,20 @@ type User struct {
 // that implements interface UserRepo
 func NewUser(db *sql.DB) *User {
 	return &User{
-		db,
+		db: db,
 	}
 }
 
+// create errors for repo
 // goes directly to database and create new user in DB
-func (u *User) CreateUser(user entity.UserModel) {
-	// fmt.Println("HEllo Create user method")
-	insert := `INSERT INTO user (id,username,password,email) VALUES (?,?,?,?);`
-	_, err := u.db.Exec(insert, user.Id, user.Username, user.Password, user.Email)
+func (u *User) CreateUser(user entity.UserModel) error {
+	log.Println("HEllo CreateUser repo method")
+	insert := `INSERT INTO user (username,password,email) VALUES (?,?,?);`
+	_, err := u.db.Exec(insert, user.Username, user.Password, user.Email)
 	if err != nil {
-		// return erra
-		log.Printf("error - repo-create user :%v\n", err)
+		return fmt.Errorf("repository: create user :%v", err)
 	}
-	// return nil
+	return nil
 }
 
 func (u *User) ComparePassword(password string) (string, error) {

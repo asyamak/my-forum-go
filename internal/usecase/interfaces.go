@@ -4,7 +4,7 @@ import "forum/internal/entity"
 
 type (
 	UserRepo interface {
-		CreateUser(user entity.UserModel)
+		CreateUser(user entity.UserModel) error
 		Login()
 		DeleteUser(username string) error
 		GetUser(username string) (entity.UserModel, error)
@@ -13,8 +13,8 @@ type (
 		ComparePassword(password string) (string, error)
 	}
 	UserUseCase interface {
-		CreateUserandValidate(user entity.UserModel)
-		Login(user entity.UserModel) error
+		CreateUserandValidate(user entity.UserModel) error
+		// Login(user entity.UserModel) error
 	}
 
 	Post interface {

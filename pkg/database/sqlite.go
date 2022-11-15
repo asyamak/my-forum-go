@@ -18,9 +18,9 @@ const (
 		expiration DATETIME DEFAULT NULL);
 `
 	postTable = `CREATE TABLE IF NOT EXISTS posts(
-	id SERIAL PRIMARY KEY,
-	context text,
-	author varchar(255));
+		id SERIAL PRIMARY KEY,
+		context text,
+		author varchar(255));
 `
 )
 
