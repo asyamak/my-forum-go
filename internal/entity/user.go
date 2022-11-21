@@ -9,6 +9,7 @@ type UserModel struct {
 	ConfirmPassword string `json:"confirm_password"`
 	Email           string `json:"email"`
 	Post            int    `json:"user_posts"`
+	CreatedAt string `json:"creation_time"`
 
 	Token          string        `json:"token"`
 	ExpirationTime time.Duration `json:"expiration"`

@@ -1,11 +1,22 @@
 package usecase
 
 import (
+	"errors"
 	"fmt"
 	"forum/internal/entity"
 	"log"
+	"net/mail"
+	"regexp"
 
 	"golang.org/x/crypto/bcrypt"
+)
+
+var (
+	ErrInvalidNameLength = errors.New("invalid username length")
+	ErrUserExist = errors.New("username is already exist")
+	ErrInvalidPassword = errors.New("invalid password")
+	ErrInvalidUser = errors.New("invalid username")
+	ErrInvalidEmail = errors.New("invalid email address")
 )
 
 type UserUse struct {
@@ -46,24 +57,32 @@ func (u *UserUse) CreateUserandValidate(user entity.UserModel) error {
 // }
 
 func checkUser(user entity.UserModel) error {
-	if !comparePassword(user.Password, user.ConfirmPassword) {
+	if user.Password != user.ConfirmPassword {
 		log.Println("error - password not the same - createuserandvalidate")
-		return fmt.Errorf("Invalid password")
+		return fmt.Errorf("usecase: check user :%v",ErrInvalidPassword)
 	}
 	if len(user.Username) < 4 || len(user.Username) > 40 {
+		return fmt.Errorf("usecase: check user :%v",ErrInvalidNameLength)
 	}
-
+	for _, w := range user.Username{
+		if w < 32 || w > 126{
+			return fmt.Errorf("usecase: check user :%v",ErrInvalidUser)
+		}
+	}
+	if _, err := mail.ParseAddress(user.Email); err != nil{
+		return fmt.Errorf("usecase: check user :%v",ErrInvalidEmail )
+	}
 	return nil
 }
 
-// if it will not be used more than in one function checkUser put in it
-func comparePassword(password, compare string) bool {
-	if password == compare {
-		return true
-	} else {
-		return false
-	}
+
+// isEmailValid checks if the email provided is valid by regex.
+func isEmailValid(e string) bool {
+    emailRegex := regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
+    return emailRegex.MatchString(e)
 }
+
+
 
 // create new hashed password upon signup
 func generateHashPassword(password string) (string, error) {

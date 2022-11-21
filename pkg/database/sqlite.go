@@ -14,8 +14,10 @@ const (
 		password text,
 		confirm_password text,
 		email text,
+		post int,
+		creation_time text,
 		session_token text,
-		expiration DATETIME DEFAULT NULL);
+		expiration_token DATETIME DEFAULT NULL);
 `
 	postTable = `CREATE TABLE IF NOT EXISTS posts(
 		id SERIAL PRIMARY KEY,
