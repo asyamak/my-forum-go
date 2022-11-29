@@ -11,7 +11,7 @@ type User struct {
 	db *sql.DB
 }
 
-// lower layer
+// NewUser lower layer
 // that implements interface UserRepo
 func NewUser(db *sql.DB) *User {
 	return &User{
@@ -19,7 +19,7 @@ func NewUser(db *sql.DB) *User {
 	}
 }
 
-// create errors for repo
+// CreateUser errors for repo
 // goes directly to database and create new user in DB
 func (u *User) CreateUser(user entity.UserModel) error {
 	log.Println("HEllo CreateUser repo method")
@@ -65,7 +65,7 @@ func (u *User) GetUser(username string) (entity.UserModel, error) {
 	selectQuery := `SELECT * from user WHERE username = $1;`
 	user := entity.UserModel{}
 	// var id string
-	err := u.db.QueryRow(selectQuery, username).Scan(&user.Id, &user.Username, &user.Password)
+	err := u.db.QueryRow(selectQuery, username).Scan(&user.UserId, &user.Username, &user.Password)
 	if err != nil {
 		return user, err
 	}
@@ -90,7 +90,7 @@ func (u *User) GetAll() ([]entity.UserModel, error) {
 	}
 	for rows.Next() {
 		user := entity.UserModel{}
-		if err := rows.Scan("", &user.Username, &user.Email, &user.Password, &user.Id); err != nil {
+		if err := rows.Scan("", &user.Username, &user.Email, &user.Password, &user.UserId); err != nil {
 			return users, err
 		}
 		users = append(users, user)

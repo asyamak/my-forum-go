@@ -16,4 +16,5 @@ func main() {
 
 	fmt.Println("initialisation of NewApp.Start")
 	app.NewApp(config).Start() //; err != nil {
+	
 }

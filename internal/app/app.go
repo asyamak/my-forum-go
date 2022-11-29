@@ -16,13 +16,11 @@ import (
 
 type App struct {
 	config *config.Config
-	// db         *sql.DB
 }
 
 func NewApp(conf *config.Config) *App {
 	return &App{
 		config: conf,
-		// db: db,
 	}
 }
 

@@ -9,13 +9,13 @@ import (
 
 const (
 	userTable = `CREATE TABLE IF NOT EXISTS user (
-		id  INTEGER PRIMARY KEY AUTOINCREMENT,
+		userId  INTEGER PRIMARY KEY AUTOINCREMENT,
 		username text,
 		password text,
 		confirm_password text,
 		email text,
 		post int,
-		creation_time text,
+		creation_time date,
 		session_token text,
 		expiration_token DATETIME DEFAULT NULL);
 `
